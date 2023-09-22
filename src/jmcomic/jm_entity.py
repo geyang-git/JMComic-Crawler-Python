@@ -288,6 +288,7 @@ class JmAlbumDetail(DetailEntity):
                  album_id,
                  scramble_id,
                  name,
+                 url,
                  episode_list,
                  page_count,
                  pub_date,
@@ -304,6 +305,7 @@ class JmAlbumDetail(DetailEntity):
         self.album_id: str = album_id
         self.scramble_id: str = scramble_id
         self.name: str = name
+        self.url: str = url
         self.page_count = int(page_count)  # 总页数
         self.pub_date: str = pub_date  # 发布日期
         self.update_date: str = update_date  # 更新日期
@@ -421,7 +423,7 @@ class JmSearchPage(JmBaseEntity, IndexedEntity):
         返回 album_id, album_title 的迭代器
         """
         for aid, ainfo in self.content:
-            yield aid, ainfo['name']
+            yield aid, ainfo['name'],ainfo['image'],
 
     def iter_id_title_tag(self) -> Generator[Tuple[str, str, List[str]], None, None]:
         """
@@ -445,6 +447,7 @@ class JmSearchPage(JmBaseEntity, IndexedEntity):
         page = JmSearchPage([(
             album.album_id, {
                 'name': album.name,
+                'image': album.url,
                 'tag_list': album.tags,
             }
         )])

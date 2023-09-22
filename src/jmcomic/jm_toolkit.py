@@ -19,6 +19,7 @@ class JmcomicText:
     pattern_html_photo_sort = compile('var sort = (\d+);')
     pattern_html_photo_page_arr = compile('var page_arr = (.*?);')
 
+    pattern_html_album_url = compile('<img[^>]*?itemprop="image"[^>]*?src="([^"]+)"[^>]*?>')
     pattern_html_album_album_id = compile('<span class="number">.*?：JM(\d+)</span>')
     pattern_html_album_scramble_id = compile('var scramble_id = (\d+);')
     pattern_html_album_name = compile('<h1 class="book-name" id="book-name">([\s\S]*?)</h1>')
@@ -241,6 +242,7 @@ class JmcomicSearchTool:
     pattern_html_search_album_info_list = compile(
         '<a href="/album/(\d+)/.+"[\s\S]*?'
         'title="(.*?)"[\s\S]*?'
+        '<img[^>]*data-original="([^"]+)"[\s\S]*?'
         '(<div class="label-category" style="">'
         '\n(.*)\n</div>\n<div class="label-sub" style=" ">'
         '(.*?)\n<[\s\S]*?)?'
@@ -272,11 +274,12 @@ class JmcomicSearchTool:
         content = []  # content这个名字来源于api版搜索返回值
         album_info_list = cls.pattern_html_search_album_info_list.findall(html)
 
-        for (album_id, title, _, label_category, label_sub, tag_text) in album_info_list:
+        for (album_id, title, image, _, label_category, label_sub, tag_text) in album_info_list:
             tag_list = cls.pattern_html_search_tag_list.findall(tag_text)
             content.append((
                 album_id, {
                     'name': title,  # 改成name是为了兼容 parse_api_resp_to_page
+                    'image': image,
                     'tag_list': tag_list
                 }
             ))
