@@ -243,7 +243,7 @@ class JmModuleConfig:
     default_option_dict: dict = {
         'version': '2.0',
         'debug': None,
-        'dir_rule': {'rule': 'Bd_Pname', 'base_dir': None},
+        'dir_rule': {'rule': 'Bd_Aname', 'base_dir': None},
         'download': {
             'cache': True,
             'image': {'decode': True, 'suffix': None},

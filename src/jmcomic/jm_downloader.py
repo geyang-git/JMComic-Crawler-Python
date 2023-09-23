@@ -71,7 +71,7 @@ class JmDownloader(DownloadCallback):
     def download_album(self, album_id):
         client = self.client_for_album(album_id)
         album = client.get_album_detail(album_id)
-        self.download_by_album_detail(album, client)
+        return self.download_by_album_detail(album, client)
 
     def download_by_album_detail(self, album: JmAlbumDetail, client: JmcomicClient):
         self.before_album(album)
@@ -81,6 +81,7 @@ class JmDownloader(DownloadCallback):
             count_batch=self.option.decide_photo_batch_count(album)
         )
         self.after_album(album)
+        return album
 
     def download_photo(self, photo_id):
         client = self.client_for_photo(photo_id)
@@ -104,6 +105,7 @@ class JmDownloader(DownloadCallback):
 
         self.before_image(image, img_save_path)
         if self.use_cache is True and image.is_exists:
+            self.after_image(image, img_save_path)
             return
         client.download_by_image_detail(
             image,

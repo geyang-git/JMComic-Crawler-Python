@@ -42,7 +42,7 @@ def download_album(jm_album_id, option=None, downloader=None):
         return download_batch(download_album, jm_album_id, option, downloader)
 
     with new_downloader(option, downloader) as dler:
-        dler.download_album(jm_album_id)
+        return dler.download_album(jm_album_id)
 
 
 def download_photo(jm_photo_id, option=None, downloader=None):

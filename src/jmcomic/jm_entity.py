@@ -401,6 +401,27 @@ class JmAlbumDetail(DetailEntity):
     def __iter__(self) -> Generator[JmPhotoDetail, None, None]:
         return super().__iter__()
 
+    def to_dict(self):
+        return {
+            'album_id': self.album_id,
+            'scramble_id': self.scramble_id,
+            'name': self.name,
+            'url': self.url,
+            'page_count': self.page_count,
+            'pub_date': self.pub_date,
+            'update_date': self.update_date,
+            'likes': self.likes,
+            'views': self.views,
+            'comment_count': self.comment_count,
+            'works': self.works,
+            'actors': self.actors,
+            'authors': self.authors,
+            'tags': self.tags,
+            'related_list': self.related_list,
+            'episode_list': self.episode_list,
+        }
+
+
 
 class JmSearchPage(JmBaseEntity, IndexedEntity):
     ContentItem = Tuple[str, Dict[str, Any]]
@@ -467,3 +488,4 @@ class JmSearchPage(JmBaseEntity, IndexedEntity):
 
     def getindex(self, index: int):
         return self.content[index]
+
